@@ -26,19 +26,27 @@ def transfer_apply(df,validfunc):
     Author: 崔超
     '''
     for i in validfunc:
-        if isinstance(i,list) and isinstance(i[1],list):
-            df [i[0]] = eval(i[1][1])(df)
+        if isinstance(i,list) and isinstance(i[1],list) and isinstance(i[1][0],dict):
+            if not 'usepar' in i[1][0].keys() or i[1][0]['usepar'] != True:
+                df [i[0]] = eval(i[1][1])(df)
+            else :
+                df [i[0]] = eval(i[1][1])(df,i[1][0]['pars'])
+        else:
+            print('Error: type of the transfer function is wrong :\n'+str(i))
 
     return df
 
-def get_validtrans(df,yname,funclist,pardict,lambda_list):
+def get_validtrans(df,yname,funclist,pardict,lambda_list,multiple=0):
     '''
     #进行有效指标函数的筛选
     df: 函数生成的dataframe
     yname: label列名称
     funclist: 函数名称->函数定义的lambda函数（dict）
-    pardict: 参数字典
+    pardict: 参数字典,
     lambda_list: lambda函数列表
+    multiple: pardict 是否对各个生成类型都不一样：
+        如果都不一样，则为1
+        否则0
 
     return:
     lambda_list
@@ -57,7 +65,7 @@ def get_validtrans(df,yname,funclist,pardict,lambda_list):
 
             # Filter the valid one
             best_trans = [ 
-                [key,[pardict,funclist[key]],bins[key].total_iv.values[0]] 
+                [key,[pardict if multiple==0 else pardict[key],funclist[key]],bins[key].total_iv.values[0]] 
                 for key in bins.keys()
                 ]
             # 剔除有效指标IV 过低或者不需要进行转换的指标
@@ -68,12 +76,15 @@ def get_validtrans(df,yname,funclist,pardict,lambda_list):
             gen_df = pd.DataFrame({'y':df[yname]})
     return lambda_list
 
-def transferfunclist(funclist,pardict,lambda_list):
+def transferfunclist(funclist,pardict,lambda_list,multiple=0):
     '''
     #将lambda函数字段转化为标准输出
     funclist: 函数名称->函数定义的lambda函数（dict）
     pardict: 参数字典
     lambda_list: lambda函数列表
+    multiple: pardict 是否对各个生成类型都不一样：
+        如果都不一样，则为1
+        否则0
 
     return:
     lambda_list
@@ -83,7 +94,7 @@ def transferfunclist(funclist,pardict,lambda_list):
     '''
 
     lambda_list.extend([ 
-                [key,[pardict,funclist[key]],1] 
+                [key,[pardict if multiple==0 else pardict[key],funclist[key]],1] 
                 for key in funclist
                 ])
     return lambda_list

@@ -17,6 +17,8 @@ from .public import (transfer_apply)
 
 from .singlemath import (mathtrans)
 
+from .discrete import (discrete_encode)
+
 
 __version__ = '0.1.9.2_cc'
 
@@ -31,5 +33,6 @@ __all__ = (
     one_hot,
     transfer_2d,transfer_2d_batch,
     transfer_apply,
-    mathtrans
+    mathtrans,
+    discrete_encode
 )
