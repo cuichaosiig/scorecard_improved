@@ -18,6 +18,7 @@ from .public import (transfer_apply)
 from .singlemath import (mathtrans)
 
 from .discrete import (discrete_encode)
+from .timeana import (time_shift)
 
 
 __version__ = '0.1.9.2_cc'
@@ -34,5 +35,6 @@ __all__ = (
     transfer_2d,transfer_2d_batch,
     transfer_apply,
     mathtrans,
-    discrete_encode
+    discrete_encode,
+    time_shift
 )

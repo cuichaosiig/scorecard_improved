@@ -22,14 +22,20 @@ def discrete_encode(df,col,method='index',lambda_list = []):
 
     funclist = {}
     parlist = {}
+    if type(col) is list:
+        cols = col
+    else:
+        cols = [cols]
+
     if method == 'index':
-        distinct_values = df[col].value_counts().index
-        map_dict = dict(zip(distinct_values,range(len(distinct_values))))
-        
-        funclist[f'{col}_mapped'] = f'lambda df,pardict: df["{col}"].map(pardict["mapdict"])'
-        parlist[f'{col}_mapped'] = dict() 
-        parlist[f'{col}_mapped']['pars'] = {'mapdict':map_dict}
-        parlist[f'{col}_mapped']['usepar'] = True
+        for col in cols:
+            distinct_values = df[col].value_counts().index
+            map_dict = dict(zip(distinct_values,range(len(distinct_values))))
+            
+            funclist[f'{col}_mapped'] = f'lambda df,pardict: df["{col}"].map(pardict["mapdict"])'
+            parlist[f'{col}_mapped'] = dict() 
+            parlist[f'{col}_mapped']['pars'] = {'mapdict':map_dict}
+            parlist[f'{col}_mapped']['usepar'] = True
     
     lambda_list = transferfunclist(funclist,parlist,lambda_list,multiple=1)
 

@@ -18,6 +18,7 @@ scorecardpy/public.py
 scorecardpy/scorecard.py
 scorecardpy/singlemath.py
 scorecardpy/split_df.py
+scorecardpy/timeana.py
 scorecardpy/var_filter.py
 scorecardpy/var_filter_bak.py
 scorecardpy/woebin.py
