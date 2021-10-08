@@ -21,7 +21,7 @@ def time_shift(df,col,analist = ['year','month','dayofweek']):
 
     df[f'{col}'] = pd.to_datetime(df[col])
     for ana in analist:
-        df[f'{col}_{ana}'] = df[col].dt[ana]
+        df[f'{col}_{ana}'] = eval(f'df[col].dt.{ana}')
     base_time = datetime.datetime.strptime('1970-01-01', '%Y-%m-%d')
     df[f'{col}_strfsd'] = df[col].apply(lambda x: x-base_time).dt.days
     #df.drop(col, axis = 1, inplace = True)
