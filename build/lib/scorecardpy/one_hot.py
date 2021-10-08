@@ -74,6 +74,7 @@ def one_hot(dt, cols_skip = None, cols_encode = None, nacol_rm = False,
     else:
         temp_dt = pd.get_dummies(dt[cols_encode], dummy_na = not nacol_rm)
         # remove cols that unique len == 1 and has _nan
+        # 前面指定了dummy_na = True的话，如果数据集中没有空置，那么这里会生成一个_nan的并且全部都是0 的列
         rm_cols_nan1 = [i for i in list(temp_dt) if len(temp_dt[i].unique())==1 and '_nan' in i]
         dt_new = pd.concat([dt.drop(cols_encode, axis=1), temp_dt.drop(rm_cols_nan1, axis=1)], axis=1)
     # replace missing values with fillna
