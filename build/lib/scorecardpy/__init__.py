@@ -19,6 +19,7 @@ from .singlemath import (mathtrans)
 
 from .discrete import (discrete_encode)
 from .timeana import (time_shift)
+from .describe import (unique_counts)
 
 
 __version__ = '0.1.9.2_cc'

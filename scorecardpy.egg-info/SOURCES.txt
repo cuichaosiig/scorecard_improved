@@ -6,6 +6,7 @@ setup.cfg
 setup.py
 scorecardpy/__init__.py
 scorecardpy/condition_fun.py
+scorecardpy/describe.py
 scorecardpy/discrete.py
 scorecardpy/germancredit.py
 scorecardpy/indicintersection.py
