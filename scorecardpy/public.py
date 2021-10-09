@@ -32,7 +32,7 @@ def transfer_apply(df,validfunc):
             else :
                 df [i[0]] = eval(i[1][1])(df,i[1][0]['pars'])
         else:
-            print('Error: type of the transfer function is wrong :\n'+str(i))
+            continue
 
     return df
 
@@ -98,3 +98,23 @@ def transferfunclist(funclist,pardict,lambda_list,multiple=0):
                 for key in funclist
                 ])
     return lambda_list
+
+def washfunclist(lambda_list, del_reason):
+    '''
+    #根据传入的剔除标准，对lambdalist进行清洗
+    lambda_list: lambda函数列表
+    del_reason: 字典,各个指标被剔除的原因
+
+    return:
+    lambda_list
+
+    -------------------------------
+    Author: 崔超
+    '''
+    lambdal = []
+    for i in lambda_list:
+        if isinstance(i,list) and isinstance(i[1],list) and isinstance(i[1][0],dict):
+            if i[0] not in del_reason.keys():
+                lambdal.append(i)
+    
+    return lambdal
