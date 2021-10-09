@@ -187,10 +187,16 @@ def rm_null_same_hr(df,cols):
     no_cores = int(np.ceil(xs_len/5 if xs_len/5 < all_cores else all_cores))
     print(f'Using {no_cores} cores!')
     # 多进程计算 
-    pool = mp.Pool(processes=no_cores)
-    data_suffix = pool.starmap(funcrelate, pars)
-    del_list.extend([ i for i in data_suffix if i != '-999'])
-    pool.close()
+    try:
+        print('Try using multi-thread ')
+        pool = mp.Pool(processes=no_cores)
+        data_suffix = pool.starmap(funcrelate, pars)
+        del_list.extend([ i for i in data_suffix if i != '-999'])
+        pool.close()
+    except Exception as err:
+        print ('Error : '+str(err)+'\n Using single_thread')
+        data_suffix = [funcrelate(*i) for i in pars]
+        del_list.extend([ i for i in data_suffix if i != '-999'])
 
     # 整理输出
     for i in del_list:
