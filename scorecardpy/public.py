@@ -27,10 +27,13 @@ def transfer_apply(df,validfunc):
     '''
     for i in validfunc:
         if isinstance(i,list) and isinstance(i[1],list) and isinstance(i[1][0],dict):
-            if not 'usepar' in i[1][0].keys() or i[1][0]['usepar'] != True:
-                df [i[0]] = eval(i[1][1])(df)
-            else :
-                df [i[0]] = eval(i[1][1])(df,i[1][0]['pars'])
+            try:
+                if not 'usepar' in i[1][0].keys() or i[1][0]['usepar'] != True:
+                    df [i[0]] = eval(i[1][1])(df)
+                else :
+                    df [i[0]] = eval(i[1][1])(df,i[1][0]['pars'])
+            except Exception as err:
+                print('Error while applying '+str(err))
         else:
             continue
 
@@ -104,6 +107,7 @@ def washfunclist(lambda_list, del_reason):
     #根据传入的剔除标准，对lambdalist进行清洗
     lambda_list: lambda函数列表
     del_reason: 字典,各个指标被剔除的原因
+		或列表，需要被剔除的指标
 
     return:
     lambda_list
@@ -112,9 +116,11 @@ def washfunclist(lambda_list, del_reason):
     Author: 崔超
     '''
     lambdal = []
-    for i in lambda_list:
-        if isinstance(i,list) and isinstance(i[1],list) and isinstance(i[1][0],dict):
-            if i[0] not in del_reason.keys():
-                lambdal.append(i)
-    
+    if type(del_reason) in [dict,list]:
+        for i in lambda_list:
+            if isinstance(i,list) and isinstance(i[1],list) and isinstance(i[1][0],dict):
+                if i[0] not in list(del_reason):
+                    lambdal.append(i)
+    else:
+        raise Exception('del_reason must be dict or list')
     return lambdal
