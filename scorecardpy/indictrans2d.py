@@ -46,7 +46,7 @@ def transfer_2d(x,z,name_x,name_z,y,step=0.1):
         [key,[{'trans2d_angle':funclist[key][0]},funclist[key][1]],bins[key].total_iv.values[0]] 
         for key in bins.keys()],key=lambda x: x[2],reverse=True)[0]
     # 剔除有效指标IV 过低或者不需要进行转换的指标
-    best_trans = -1 if (best_trans[2]<iv_threshold) or best_trans[1][0]['trans2d_angle']==999 or math.abs(best_trans[1][0]['trans2d_angle'])< step or math.abs(best_trans[1][0]['trans2d_angle'])> 1-step else best_trans 
+    best_trans = -1 if (best_trans[2]<iv_threshold) or best_trans[1][0]['trans2d_angle']==999 or abs(best_trans[1][0]['trans2d_angle'])< step or abs(best_trans[1][0]['trans2d_angle'])> 1-step else best_trans 
     return best_trans
 
 def transfer_2d_batch(df,x,y,step=0.1,lambda_list=[],x2=[]):
