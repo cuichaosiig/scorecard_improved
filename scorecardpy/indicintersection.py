@@ -33,6 +33,7 @@ def admd(df,topcols,yname,lambda_list=[],topcols2=[]):
                 funclist[f'({i})+({j})'] = f"lambda df: df['{i}']+df['{j}']"
                 funclist[f'({i})-({j})'] = f"lambda df: df['{i}']-df['{j}']"
                 funclist[f'({i})*({j})'] = f"lambda df: df['{i}']*df['{j}']"
+    
     for i in topcols:
         for j in topcols2:
             if i!=j:

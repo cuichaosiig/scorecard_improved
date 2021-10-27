@@ -30,9 +30,10 @@ def discrete_encode(df,col,method='index',lambda_list = []):
 
     for col in cols:
         distinct_values = df[col].value_counts().index
+        distinct_values_count = df[col].value_counts().values
         map_dict = {}
         if method == 'index':
-            map_dict = dict(zip(distinct_values,range(len(distinct_values))))
+            map_dict = dict(zip(distinct_values,distinct_values_count))
         if method == 'sort':
             map_dict = dict(zip(sorted(distinct_values),range(len(distinct_values))))
 
